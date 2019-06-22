@@ -1,0 +1,88 @@
+create table categoria_usuario (
+	id serial,
+	descricao varchar(200) not null,
+	PRIMARY KEY(id)
+);
+
+
+create table jornada_trabalho (
+	id serial,
+	sigla varchar(2) not null,
+	descricao varchar(200) not null,
+	PRIMARY KEY(id)
+);
+
+
+create table ocorrencia (
+	id serial,
+	nome_ocorrencia varchar(300) not null,
+	descricao varchar(200), 
+	PRIMARY KEY(id)
+);
+
+
+create table tipo_data (
+	id serial,
+	tipo_data varchar(200)not null,
+	descricao varchar(200) ,
+	PRIMARY KEY(id)
+);
+
+
+create table calendario (
+	id serial,
+	tipo_data_id integer not null,
+	descricao varchar(200),
+	data_especial date, 
+
+	PRIMARY KEY(id),
+	FOREIGN KEY (tipo_data_id) REFERENCES tipo_data(id)
+);
+
+
+
+create table usuario(
+	id serial,
+	categoria_usuario_id integer not null,
+	nome varchar(100) not null,
+	jornada_trabalho_id integer not null,
+	
+
+	PRIMARY KEY(id),
+	FOREIGN KEY (categoria_usuario_id) REFERENCES categoria_usuario(id),
+	FOREIGN KEY (jornada_trabalho_id) REFERENCES jornada_trabalho(id)
+	on delete cascade on update no action
+)
+
+
+
+create table movimentacao(
+	id serial not null,
+	usuario_id integer not null unique,
+	inicio_jornada date,
+	inicio_saida date,
+	ocorrencia_id integer not null,
+	calendario_id integer not null,
+
+	primary key(id,usuario_id),
+	FOREIGN KEY (usuario_id) REFERENCES usuario(id),
+	FOREIGN KEY (ocorrencia_id) REFERENCES ocorrencia(id),
+	FOREIGN KEY (calendario_id) REFERENCES calendario(id)
+	
+)
+
+
+create table banco_horas(
+	id serial,
+	movimentacao_id integer not null,
+	usuario_id integer not null ,
+	categoria_usuario_id integer not null,
+	data_trabalhada date,
+	quantidade_horas_dia date,
+	saldo_horas_trabalhadas float,
+
+	primary key(id,movimentacao_id,usuario_id),
+	FOREIGN KEY (usuario_id) REFERENCES usuario(id),
+	FOREIGN KEY (movimentacao_id,usuario_id) REFERENCES movimentacao(id,usuario_id),
+	FOREIGN KEY (categoria_usuario_id) REFERENCES categoria_usuario(id)
+)
