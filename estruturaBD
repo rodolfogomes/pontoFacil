@@ -52,7 +52,7 @@ create table usuario(
 	FOREIGN KEY (categoria_usuario_id) REFERENCES categoria_usuario(id),
 	FOREIGN KEY (jornada_trabalho_id) REFERENCES jornada_trabalho(id)
 	on delete cascade on update no action
-)
+);
 
 
 
@@ -69,7 +69,7 @@ create table movimentacao(
 	FOREIGN KEY (ocorrencia_id) REFERENCES ocorrencia(id),
 	FOREIGN KEY (calendario_id) REFERENCES calendario(id)
 	
-)
+);
 
 
 create table banco_horas(
@@ -85,4 +85,4 @@ create table banco_horas(
 	FOREIGN KEY (usuario_id) REFERENCES usuario(id),
 	FOREIGN KEY (movimentacao_id,usuario_id) REFERENCES movimentacao(id,usuario_id),
 	FOREIGN KEY (categoria_usuario_id) REFERENCES categoria_usuario(id)
-)
+);
